@@ -1,0 +1,50 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
+      
+      <h2 class="text-3xl font-bold text-purple-700 mb-4 flex items-center gap-2 justify-center">
+        ⚔️ Editar Raza
+      </h2>
+  
+      <p class="text-center text-sm text-gray-500 mb-6">
+        Selecciona la raza del guerrero haciendo clic en una de las tarjetas
+      </p>
+      
+      <form [formGroup]="breedUpdate" (ngSubmit)="updateWarriorBreed()" class="space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div *ngFor="let breed of breeds"
+             (click)="selectBreed(breed.breedId)"
+             [ngClass]="{
+               'bg-purple-600 text-white shadow-lg scale-[1.02]': breedUpdate.value.breedId === breed.breedId,
+               'bg-gray-50 text-gray-800 hover:shadow-md': breedUpdate.value.breedId !== breed.breedId
+             }"
+             class="cursor-pointer p-5 border rounded-xl transition-all duration-200 ease-in-out">
+  
+          <h3 class="font-semibold text-lg mb-1"
+              [ngClass]="{
+                'text-white': breedUpdate.value.breedId === breed.breedId,
+                'text-gray-800': breedUpdate.value.breedId !== breed.breedId
+              }">
+            {{ breed.breedName }}
+          </h3>
+  
+          <p class="text-sm"
+             [ngClass]="{
+               'text-white': breedUpdate.value.breedId === breed.breedId,
+               'text-gray-600': breedUpdate.value.breedId !== breed.breedId
+             }">
+            {{ breed.breedDescription }}
+          </p>
+  
+        </div>
+      </div>
+       <!-- Botón -->
+       <div class="pt-4">
+            <button type="submit"
+            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300">
+            💥 Editar Raza
+            </button>
+       </div>
+    </form>
+    </div>
+  </div>
+  
