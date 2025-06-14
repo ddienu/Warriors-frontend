@@ -5,6 +5,7 @@ import { createWarriorDTO } from '../../features/warriors/models/createWarrior.d
 import { ApiResponse } from '../../shared/models/api-response.model';
 import { Observable } from 'rxjs';
 import { UpdateWarriorBasicsDTO } from '../../features/warriors/models/updateWarriorBasics.dto';
+import { UpdateWarriorPowersDTO } from '../../features/warriors/models/updateWarriorPowers.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class WarriorService {
 
   updateWarriorBreed(warriorId: number, breedUpdated : number) : Observable<ApiResponse<Warrior>>{
     return this.http.patch<ApiResponse<Warrior>>(`${this.apiUrl}/breed/${warriorId}`, breedUpdated);
+  }
+
+  updateWarriorPowers(warriorId: number, powersUpdated : UpdateWarriorPowersDTO) : Observable<ApiResponse<Warrior>>{
+    return this.http.patch<ApiResponse<Warrior>>(`${this.apiUrl}/powers/${warriorId}`, powersUpdated);
   }
 
   updateWarriorType(warriorId : number, typeUpdated : number) : Observable<ApiResponse<Warrior>>{

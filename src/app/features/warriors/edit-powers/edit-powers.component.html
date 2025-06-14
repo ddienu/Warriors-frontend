@@ -1,1 +1,67 @@
-<p>edit-powers works!</p>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
+      
+      <h2 class="text-3xl font-bold text-purple-700 mb-4 flex items-center gap-2 justify-center">
+        ⚔️ Editar Poderes Del Guerrero
+      </h2>
+  
+      <p class="text-center text-sm text-gray-500 mb-6">
+        Selecciona los poderes del guerrero haciendo clic en una de las tarjetas
+      </p>
+      
+      <form [formGroup]="updateWarriorPowersForm" (ngSubmit)="updateWarriorPowers()" class="space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div *ngFor="let power of powers"
+             (click)="selectPowers(power.powerId)"
+             [ngClass]="{
+               'bg-purple-600 text-white shadow-lg scale-[1.02]': updateWarriorPowersForm.value.powerIds.includes(power.powerId),
+               'bg-gray-50 text-gray-800 hover:shadow-md': !updateWarriorPowersForm.value.powerIds.includes(power.powerId)
+             }"
+             class="cursor-pointer p-5 border rounded-xl transition-all duration-200 ease-in-out">
+  
+          <h3 class="font-semibold text-lg mb-1"
+              [ngClass]="{
+                'text-white': updateWarriorPowersForm.value.powerIds.includes(power.powerId),
+                'text-gray-800': !updateWarriorPowersForm.value.powerIds.includes(power.powerId)
+              }">
+            {{ power.powerName }}
+          </h3>
+  
+          <p class="text-sm"
+             [ngClass]="{
+               'text-white': updateWarriorPowersForm.value.powerIds.includes(power.powerId),
+               'text-gray-600': !updateWarriorPowersForm.value.powerIds.includes(power.powerId)
+             }">
+            Daño: {{ power.powerDamage }}
+          </p>
+
+          <p class="text-sm"
+             [ngClass]="{
+               'text-white': updateWarriorPowersForm.value.powerIds.includes(power.powerId),
+               'text-gray-600': !updateWarriorPowersForm.value.powerIds.includes(power.powerId)
+             }">
+            Energía consumida: {{ power.powerEnergyConsumed }}
+          </p>
+
+          <p class="text-sm"
+             [ngClass]="{
+               'text-white': updateWarriorPowersForm.value.powerIds.includes(power.powerId),
+               'text-gray-600': !updateWarriorPowersForm.value.powerIds.includes(power.powerId)
+             }">
+            {{ power.powerDescription }}
+          </p>
+  
+        </div>
+      </div>
+
+       <!-- Botón -->
+       <div class="pt-4">
+            <button type="submit"
+            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300">
+            🗡️  Editar
+            </button>
+       </div>
+    </form>
+    </div>
+  </div>
+  

@@ -24,5 +24,9 @@ export const routes: Routes = [
     {
         path: 'update-type/:id',
         loadComponent:() => import('./features/warriors/edit-type/edit-type.component')
+    },
+    {
+        path:'update-powers/:id',
+        loadComponent: () => import('./features/warriors/edit-powers/edit-powers.component')
     }
 ];
