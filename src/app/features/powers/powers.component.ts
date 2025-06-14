@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './powers.component.html',
   styleUrl: './powers.component.css'
 })
-export class PowersComponent {
+export default class PowersComponent {
 
 }
