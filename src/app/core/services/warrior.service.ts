@@ -35,6 +35,10 @@ export class WarriorService {
     return this.http.patch<ApiResponse<Warrior>>(`${this.apiUrl}/breed/${warriorId}`, breedUpdated);
   }
 
+  updateWarriorType(warriorId : number, typeUpdated : number) : Observable<ApiResponse<Warrior>>{
+    return this.http.patch<ApiResponse<Warrior>>(`${this.apiUrl}/type/${warriorId}`, typeUpdated);
+  }
+
   deleteWarrior(warriorId : number) : Observable<boolean> {
     return this.http.delete<boolean>(`${this.apiUrl}/${warriorId}`);
   }
