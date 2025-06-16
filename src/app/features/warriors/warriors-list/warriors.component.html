@@ -1,5 +1,5 @@
 <div class="p-6 from-gray-100 to-gray-200 min-h-screen ">
-  <h1 class="text-3xl font-bold text-center text-indigo-800 mb-8">⚔️ Warriors Directory</h1>
+  <h1 class="text-5xl font-bold text-center text-indigo-900 mb-8">⚔️ Warriors Directory</h1>
   <div class="w-full text-center my-4">
     <button class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
     [routerLink]="['/warrior/create']">
@@ -9,8 +9,8 @@
   
   
 
-  <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    <div *ngFor="let warrior of warriors" class="border-2 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
+  <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div *ngFor="let warrior of warriors" class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
       <!-- Imagen del guerrero -->
        <div [ngSwitch]="warrior.warriorBreed.breedName" class="w-40 h-40 rounded-full overflow-hidden mx-auto mt-6">
           <img *ngSwitchCase="'Human'" 
@@ -76,7 +76,7 @@
       <div class="p-5 space-y-3">
         <h2 class="text-3xl font-bold text-indigo-700 text-center">{{ warrior.warriorName }}</h2>
         
-        <div class="text-sm text-gray-700 space-y-1">
+        <div class="text-sm text-white space-y-1">
           <p><strong>❤️ Life:</strong> {{ warrior.warriorLife }}</p>
           <p><strong>⚡ Energy:</strong> {{ warrior.warriorEnergy }}</p>
           <p><strong>🧬 Type:</strong> {{ warrior.warriorType.typeWarriorName }}</p>
@@ -84,8 +84,8 @@
         </div>
 
         <div>
-          <p class="font-semibold text-gray-800 mb-1">🌀 Powers:</p>
-          <ul class="list-disc list-inside text-sm text-gray-600 min-h-[120px]">
+          <p class="font-semibold text-red-600 mb-1">🌀 Powers:</p>
+          <ul class="list-disc list-inside text-sm text-white min-h-[120px] ml-4">
             <li *ngFor="let power of warrior.powers">
               {{ power.powerName }} (💥 {{ power.powerDamage }} / ⚡ {{ power.powerEnergyConsumed }})
             </li>
