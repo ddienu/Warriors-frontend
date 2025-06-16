@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-cover bg-center bg-no-repeat;
+  background-image: url('assets/background-image.png');
+}
