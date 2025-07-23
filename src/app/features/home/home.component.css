@@ -1,0 +1,4 @@
+main {
+  @apply bg-cover bg-center bg-no-repeat;
+  background-image: url('../../../assets/home-background.png');
+}
