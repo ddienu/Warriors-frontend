@@ -1,0 +1,144 @@
+<app-header></app-header>
+<main>
+<div *ngIf="!isPlayerRegistered" class="max-w-[85%] mx-auto mt-28 p-6 text-white">
+  <h1 class="text-4xl font-bold mb-6 text-center">🛡️ Crear jugador</h1>
+
+  <form [formGroup]="createPlayerForm" (ngSubmit)="submit()" class="space-y-4">
+    <label class="block">
+      <span class="block text-sm font-medium text-white mb-1">Nickname</span>
+      <input formControlName="nickname" type="text" placeholder="Ingresa tu nombre de jugador"
+        class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    </label>
+
+    <div>
+      <h2 class="text-xl font-semibold mb-2">Selecciona 5 guerreros</h2>
+      <app-warriors
+        [selectionMode]="true"
+        [maxSelectable]="5"
+        [showHeader]="false"
+        [marginTop]="'mt-2'"
+        (selectionChange)="onWarriorSelectionChanged($event)"
+      ></app-warriors>
+    </div>
+
+    <div class="flex justify-end mt-4">
+      <button type="submit"
+        class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg transition">
+        Crear jugador
+      </button>
+    </div>
+  </form>
+</div>
+
+<div
+  *ngIf="isPlayerRegistered && playerFounded as player"
+  class="max-w-[85%] mx-auto mt-28 p-6 text-white bg-black/60 rounded-lg shadow-xl"
+>
+  <h1 class="text-4xl font-bold mb-6 text-center text-indigo-300">
+    🎮 ¡Hola, {{ player.nickname }}!
+  </h1>
+
+  <h2 class="text-2xl font-semibold mb-4 text-purple-300 text-center">
+    Tus guerreros seleccionados:
+  </h2>
+
+  <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div
+      *ngFor="let warrior of player.warriorsSelected"
+      class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl overflow-hidden transition-all duration-300"
+    >
+      <!-- Imagen del guerrero -->
+      <div
+        [ngSwitch]="warrior.warriorBreed.breedName"
+        class="w-40 h-40 rounded-full overflow-hidden mx-auto mt-6"
+      >
+        <img
+          *ngSwitchCase="'Human'"
+          src="../../../assets/human_image.webp"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Elf'"
+          src="../../../assets/elf_image.webp"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Orc'"
+          src="../../../assets/orc_image.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Dwarf'"
+          src="../../../assets/dwarf_image.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Undead'"
+          src="../../../assets/undead_warrior.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Troll'"
+          src="../../../assets/Troll_warrior.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Dragonkin'"
+          src="../../../assets/Dragonkin_image.webp"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Fairy'"
+          src="../../../assets/fairy_image.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Giant'"
+          src="../../../assets/giant_image.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+        <img
+          *ngSwitchCase="'Demon'"
+          src="../../../assets/demon_image.jpg"
+          alt="{{ warrior.warriorName }}"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Información del guerrero -->
+      <div class="p-5 space-y-3">
+        <h2 class="text-3xl font-bold text-indigo-700 text-center">
+          {{ warrior.warriorName }}
+        </h2>
+
+        <div class="text-sm text-white space-y-1">
+          <p><strong>❤️ Life:</strong> {{ warrior.warriorLife }}</p>
+          <p><strong>⚡ Energy:</strong> {{ warrior.warriorEnergy }}</p>
+          <p><strong>🧬 Type:</strong> {{ warrior.warriorType.typeWarriorName }}</p>
+          <p><strong>🧪 Breed:</strong> {{ warrior.warriorBreed.breedName }}</p>
+        </div>
+
+        <div>
+          <p class="font-semibold text-red-600 mb-1">🌀 Powers:</p>
+          <ul class="list-disc list-inside text-sm text-white min-h-[120px] ml-4">
+            <li *ngFor="let power of warrior.powers">
+              {{ power.powerName }} (💥 {{ power.powerDamage }} / ⚡
+              {{ power.powerEnergyConsumed }})
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
