@@ -1,0 +1,51 @@
+<app-header></app-header>
+
+<main class="max-w-[90%] mx-auto mt-24 text-white">
+  <!-- Título -->
+  <h1 class="text-4xl font-bold text-center text-indigo-400 mb-10">
+    ⚔️ ¡Campo De Batalla!
+  </h1>
+    <div class="my-10 text-center">
+      <p class="text-lg text-white/90 font-medium">
+        La batalla está por comenzar... ⚡
+      </p>
+      <p class="text-sm text-green-400 mt-1 animate-pulse">
+        Iniciando batalla en {{ timer }} segundos...
+      </p>
+    </div>
+
+  <!-- Contenedor principal de batalla -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 bg-black/60 p-6 rounded-2xl shadow-xl">
+    <div *ngFor="let player of playersFounded" class="bg-gray-900/70 p-5 rounded-xl border border-indigo-500/30">
+      <!-- Avatar e info básica -->
+      <div class="flex items-center space-x-4 mb-6">
+        <div class="w-16 h-16 bg-indigo-700 rounded-full flex items-center justify-center text-2xl font-bold">
+          {{ player.nickname.charAt(0).toUpperCase() }}
+        </div>
+        <div class="text-center">
+          <p class="text-sm text-gray-400 text-center">ID: {{ player.playerId }}</p>
+          <h2 class="text-xl font-semibold text-indigo-300 text-center">{{ player.nickname }}</h2>
+        </div>
+      </div>
+
+      <!-- Guerreros del jugador -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-purple-300">🛡️ Tus Guerreros: </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div *ngFor="let warrior of player.warriorsSelected" class="bg-black/50 rounded-lg p-3 shadow hover:shadow-md transition">
+            <p class="text-indigo-400 font-medium text-sm mb-1">{{ warrior.warriorName }}</p>
+            <div class="text-xs text-gray-300 space-y-1">
+              <p>❤️ {{ warrior.warriorLife }} | ⚡ {{ warrior.warriorEnergy }}</p>
+              <p>🧬 {{ warrior.warriorType.typeWarriorName }} | 🧪 {{ warrior.warriorBreed.breedName }}</p>
+              <p>💥 Poderes:
+                <span *ngFor="let power of warrior.powers; let last = last">
+                  {{ power.powerName }}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
