@@ -3,6 +3,14 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: '',
+        loadComponent: () => import('./features/home/home.component')
+    },
+    {
+        path: 'auth',
+        loadComponent: () => import('./features/auth/auth.component')
+    },
+    {
+        path: 'warriors',
         loadComponent: () => import('./features/warriors/warriors-list/warriors.component')
     },
     {
@@ -28,5 +36,17 @@ export const routes: Routes = [
     {
         path:'update-powers/:id',
         loadComponent: () => import('./features/warriors/edit-powers/edit-powers.component')
+    },
+    {
+        path:'match',
+        loadComponent: () => import('./features/match/match.component')
+    },
+    {
+        path:'create-player',
+        loadComponent: () => import('./features/create-player/create-player.component')
+    },
+    {
+        path:'into-battle/:matchId',
+        loadComponent: () => import('./features/into-battle/into-battle.component')
     }
 ];
