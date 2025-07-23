@@ -1,0 +1,56 @@
+<header class="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 bg-opacity-90 backdrop-blur-md shadow-lg fixed top-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- *ngIf="role==='ADMIN'" -->
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <img src="../../../assets/logo.png" alt="Logo" class="w-10 h-10" />
+      <h1 class="text-white text-2xl font-bold tracking-widest">Warrior Battle</h1>
+    </div>
+
+    <!-- Botón hamburguesa -->
+    <button class="md:hidden text-white" (click)="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Navegación desktop -->
+    <nav class="hidden md:flex gap-6 text-white font-medium">
+      <a routerLink="" class="hover:text-indigo-300 transition hover:cursor-pointer">Inicio</a>
+      <a routerLink="/warriors" class="hover:text-indigo-300 transition hover:cursor-pointer">Guerreros</a> 
+      <!-- <a *ngif="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Crea tu jugador</a>  -->
+       <a *ngIf="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Crea tu jugador</a> 
+      <a *ngIf="role!==''" routerLink="/match" class="hover:text-indigo-300 transition hover:cursor-pointer">Batalla</a> 
+    </nav>
+
+    <!-- Botón login desktop -->
+    <div *ngIf="role===''" class="hidden md:block">
+      <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition" routerLink="/auth">
+        Iniciar sesión
+      </button>
+    </div>
+    <div *ngIf="role!==''" class="hidden md:block">
+      <span class="text-white mr-4">¡Bienvenido!</span>
+      <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition" (click)="logout()">
+        Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- Navegación móvil -->
+  <div *ngIf="isMenuOpen" class="md:hidden px-4 pb-4">
+    <nav class="flex flex-col gap-3 text-white font-medium">
+      <a routerLink="/inicio" class="hover:text-indigo-300 transition">Inicio</a>
+      <a routerLink="/warriors" class="hover:text-indigo-300 transition">Guerreros</a>
+      <a routerLink="/powers" class="hover:text-indigo-300 transition">Poderes</a>
+      <a routerLink="/about" class="hover:text-indigo-300 transition">Nosotros</a>
+      <button class="mt-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition">
+        Iniciar sesión
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- <div class="mt-20"></div> -->
