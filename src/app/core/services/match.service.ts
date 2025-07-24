@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MatchModel, MatchResponse } from '../../features/match/model/matchResponse.model';
 import { Observable } from 'rxjs';
 import { JoinMatchModel } from '../../features/match/model/joinMatch.model';
@@ -7,22 +7,26 @@ import { ApiResponse } from '../../shared/models/api-response.model';
 import { StorageService } from './storage.service';
 import { SimulateBattleModel } from '../../features/match/model/simulateBattle.model';
 import { MatchRequest } from '../../features/match/model/matchRequest.model';
+import { API_URL } from '../../tokens/api-url.token';
+import { ApiPath } from '../../shared/constants/api-paths';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
 
-  private apiUrl = "http://localhost:8080/v1/match";
-
-  constructor(private http: HttpClient, private storageService:StorageService) { }
+  constructor(
+    private http: HttpClient, 
+    private storageService:StorageService,
+    @Inject(API_URL) private apiUrl : string
+  ) {}
 
   getMatches() : Observable<MatchResponse>{
     const jwt = this.storageService.getItem('token');
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${jwt}`
     });
-    return this.http.get<MatchResponse>(`${this.apiUrl}`);
+    return this.http.get<MatchResponse>(`${this.apiUrl}${ApiPath.match}`);
   }
 
   getMatchById(matchId:number) : Observable<ApiResponse<MatchModel>>{
@@ -30,7 +34,7 @@ export class MatchService {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${jwt}`
     });
-    return this.http.get<ApiResponse<MatchModel>>(`${this.apiUrl}/${matchId}`);
+    return this.http.get<ApiResponse<MatchModel>>(`${this.apiUrl}${ApiPath.match}/${matchId}`);
   }
 
   createMatch(matchPayload: MatchRequest):Observable<ApiResponse<MatchModel>>{
@@ -38,7 +42,7 @@ export class MatchService {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${jwt}`
     });
-    return this.http.post<ApiResponse<MatchModel>>(`${this.apiUrl}`, matchPayload);
+    return this.http.post<ApiResponse<MatchModel>>(`${this.apiUrl}${ApiPath.match}`, matchPayload);
   }
 
   joinMatch(joinMatchPayload:JoinMatchModel) : Observable<any>{
@@ -46,7 +50,7 @@ export class MatchService {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${jwt}`
     });
-    return this.http.post<JoinMatchModel>(`${this.apiUrl}/join`, joinMatchPayload);
+    return this.http.post<JoinMatchModel>(`${this.apiUrl}${ApiPath.match}/join`, joinMatchPayload);
   }
 
   simulateBattle(matchPayload:SimulateBattleModel):Observable<ApiResponse<MatchModel>>{
@@ -54,7 +58,7 @@ export class MatchService {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${jwt}`
     });
-    return this.http.post<ApiResponse<MatchModel>>(`${this.apiUrl}/winner`, matchPayload)
+    return this.http.post<ApiResponse<MatchModel>>(`${this.apiUrl}${ApiPath.match}/winner`, matchPayload)
   }
 
 }
