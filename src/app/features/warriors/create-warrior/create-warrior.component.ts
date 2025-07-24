@@ -10,12 +10,13 @@ import { TypeWarriorService } from '../../../core/services/type-warrior.service'
 import { Warrior } from '../models/warrior.model';
 import { createWarriorDTO } from '../models/createWarrior.dto';
 import { WarriorService } from '../../../core/services/warrior.service';
+import { HeaderComponent } from '../../header/header.component';
 
 
 @Component({
   selector: 'app-create-warrior',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent],
   templateUrl: './create-warrior.component.html',
   styleUrl: './create-warrior.component.css'
 })

@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BreedService } from '../../../core/services/breed.service';
 import { Breed } from '../../breedWarrior/models/breed.model';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-edit-breed',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './edit-breed.component.html',
   styleUrl: './edit-breed.component.css'
 })

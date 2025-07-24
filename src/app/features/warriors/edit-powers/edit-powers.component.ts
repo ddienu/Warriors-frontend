@@ -5,11 +5,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { WarriorService } from '../../../core/services/warrior.service';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-edit-powers',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent],
   templateUrl: './edit-powers.component.html',
   styleUrl: './edit-powers.component.css'
 })

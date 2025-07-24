@@ -1,118 +1,100 @@
-<div class="p-6 from-gray-100 to-gray-200 min-h-screen ">
-  <h1 class="text-5xl font-bold text-center text-indigo-900 mb-8">⚔️ Warriors Directory</h1>
-  <div class="w-full text-center my-4">
-    <button class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
-    [routerLink]="['/warrior/create']">
-      Crear Guerrero
-    </button>
-  </div>
-  
-  
+<app-header *ngIf="showHeader"></app-header>
+<main>
+  <div [ngClass]="['p-6 from-gray-100 to-gray-200 min-h-screen', marginTop]">
+    <h1 class="text-4xl font-bold text-center text-purple-500 mb-8">⚔️ Warriors Directory</h1>
+    <div class="w-full text-center my-4">
+      <button *ngIf="role==='ADMIN'"
+        class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+        [routerLink]="['/warrior/create']">
+        Crear Guerrero
+      </button>
+    </div>
 
-  <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-    <div *ngFor="let warrior of warriors" class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
-      <!-- Imagen del guerrero -->
-       <div [ngSwitch]="warrior.warriorBreed.breedName" class="w-40 h-40 rounded-full overflow-hidden mx-auto mt-6">
-          <img *ngSwitchCase="'Human'" 
-            src="../../../assets/human_image.webp"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Elf'"
-            src="../../../assets/elf_image.webp"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Orc'"
-            src="../../../assets/orc_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Dwarf'"
-            src="../../../assets/dwarf_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Dwarf'"
-            src="../../../assets/dwarf_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Undead'"
-            src="../../../assets/undead_warrior.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Troll'"
-            src="../../../assets/Troll_warrior.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Dragonkin'"
-            src="../../../assets/Dragonkin_image.webp"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Fairy'"
-            src="../../../assets/fairy_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Giant'"
-            src="../../../assets/giant_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
-          <img *ngSwitchCase="'Demon'" 
-            src="../../../assets/demon_image.jpg"
-            alt="{{ warrior.warriorName }}" 
-            class="w-full h-full object-cover"
-          />
+    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div *ngFor="let warrior of warriors"
+        class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
+        [ngClass]="{
+    'ring-4 ring-indigo-500 scale-105': selectedWarriorIds.includes(warrior.warriorId),
+    'hover:scale-105': selectionMode
+  }" (click)="selectionMode ? toggleSelection(warrior.warriorId) : null">
+        <!-- Imagen del guerrero -->
+        <div [ngSwitch]="warrior.warriorBreed.breedName" class="w-40 h-40 rounded-full overflow-hidden mx-auto mt-6">
+          <img *ngSwitchCase="'Human'" src="../../../assets/human_image.webp" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Elf'" src="../../../assets/elf_image.webp" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Orc'" src="../../../assets/orc_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Dwarf'" src="../../../assets/dwarf_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Dwarf'" src="../../../assets/dwarf_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Undead'" src="../../../assets/undead_warrior.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Troll'" src="../../../assets/Troll_warrior.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Dragonkin'" src="../../../assets/Dragonkin_image.webp" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Fairy'" src="../../../assets/fairy_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Giant'" src="../../../assets/giant_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
+          <img *ngSwitchCase="'Demon'" src="../../../assets/demon_image.jpg" alt="{{ warrior.warriorName }}"
+            class="w-full h-full object-cover" />
 
-       </div>
-      
-    
-
-      <div class="p-5 space-y-3">
-        <h2 class="text-3xl font-bold text-indigo-700 text-center">{{ warrior.warriorName }}</h2>
-        
-        <div class="text-sm text-white space-y-1">
-          <p><strong>❤️ Life:</strong> {{ warrior.warriorLife }}</p>
-          <p><strong>⚡ Energy:</strong> {{ warrior.warriorEnergy }}</p>
-          <p><strong>🧬 Type:</strong> {{ warrior.warriorType.typeWarriorName }}</p>
-          <p><strong>🧪 Breed:</strong> {{ warrior.warriorBreed.breedName }}</p>
         </div>
 
-        <div>
-          <p class="font-semibold text-red-600 mb-1">🌀 Powers:</p>
-          <ul class="list-disc list-inside text-sm text-white min-h-[120px] ml-4">
-            <li *ngFor="let power of warrior.powers">
-              {{ power.powerName }} (💥 {{ power.powerDamage }} / ⚡ {{ power.powerEnergyConsumed }})
-            </li>
-          </ul>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-4 justify-around">
-          <button class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition duration-200 hover:scale-105" [routerLink]="['/update-basics', warrior.warriorId]">
-            Editar Guerrero
-          </button>
-          <button class="bg-green-600 text-white px-4 py-2 rounded-xl shadow hover:bg-green-700 transition duration-200 hover:scale-105" [routerLink]="['/update-breed', warrior.warriorId]">
-            Editar Raza
-          </button>
-          <button class="bg-yellow-500 text-white px-4 py-2 rounded-xl shadow hover:bg-yellow-600 transition duration-200 hover:scale-105" [routerLink]="['/update-type', warrior.warriorId]">
-            Editar Tipo
-          </button>
-          <button class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow hover:bg-purple-700 transition duration-200 hover:scale-105" [routerLink]="['/update-powers', warrior.warriorId]">
-            Editar Poderes
-          </button>
-          <button class="bg-red-600 text-white px-4 py-2 rounded-xl shadow hover:bg-red-700 transition duration-200 hover:scale-105" (click)="deleteWarrior(warrior.warriorId)">
-            Eliminar Guerrero
-          </button>
+        <div class="p-5 space-y-3">
+          <h2 class="text-3xl font-bold text-indigo-700 text-center">{{ warrior.warriorName }}</h2>
+
+          <div class="text-sm text-white space-y-1">
+            <p><strong>❤️ Life:</strong> {{ warrior.warriorLife }}</p>
+            <p><strong>⚡ Energy:</strong> {{ warrior.warriorEnergy }}</p>
+            <p><strong>🧬 Type:</strong> {{ warrior.warriorType.typeWarriorName }}</p>
+            <p><strong>🧪 Breed:</strong> {{ warrior.warriorBreed.breedName }}</p>
+          </div>
+
+          <div>
+            <p class="font-semibold text-red-600 mb-1">🌀 Powers:</p>
+            <ul class="list-disc list-inside text-sm text-white min-h-[120px] ml-4">
+              <li *ngFor="let power of warrior.powers">
+                {{ power.powerName }} (💥 {{ power.powerDamage }} / ⚡ {{ power.powerEnergyConsumed }})
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="role==='ADMIN'" class="flex flex-wrap gap-2 mt-4 justify-around">
+            <button
+              class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition duration-200 hover:scale-105"
+              [routerLink]="['/update-basics', warrior.warriorId]">
+              Editar Guerrero
+            </button>
+            <button
+              class="bg-green-600 text-white px-4 py-2 rounded-xl shadow hover:bg-green-700 transition duration-200 hover:scale-105"
+              [routerLink]="['/update-breed', warrior.warriorId]">
+              Editar Raza
+            </button>
+            <button
+              class="bg-yellow-500 text-white px-4 py-2 rounded-xl shadow hover:bg-yellow-600 transition duration-200 hover:scale-105"
+              [routerLink]="['/update-type', warrior.warriorId]">
+              Editar Tipo
+            </button>
+            <button
+              class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow hover:bg-purple-700 transition duration-200 hover:scale-105"
+              [routerLink]="['/update-powers', warrior.warriorId]">
+              Editar Poderes
+            </button>
+            <button
+              class="bg-red-600 text-white px-4 py-2 rounded-xl shadow hover:bg-red-700 transition duration-200 hover:scale-105"
+              (click)="deleteWarrior(warrior.warriorId)">
+              Eliminar Guerrero
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="warriors.length === 0" class="text-center mt-10 text-gray-500">
-    No warriors found.
+    <div *ngIf="warriors.length === 0" class="text-center mt-10 text-gray-500">
+      No warriors found.
+    </div>
   </div>
-</div>
+</main>

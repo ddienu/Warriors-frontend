@@ -3,11 +3,12 @@ import { WarriorService } from '../../../core/services/warrior.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Warrior } from '../models/warrior.model';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-edit-basics',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, HeaderComponent],
   templateUrl: './edit-basics.component.html',
   styleUrl: './edit-basics.component.css'
 })
