@@ -8,6 +8,7 @@ import { UpdateWarriorBasicsDTO } from '../../features/warriors/models/updateWar
 import { UpdateWarriorPowersDTO } from '../../features/warriors/models/updateWarriorPowers.dto';
 import { API_URL } from '../../tokens/api-url.token';
 import { ApiPath } from '../../shared/constants/api-paths';
+import { Page } from '../../shared/models/page.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,12 @@ export class WarriorService {
     @Inject(API_URL) private apiUrl : string
   ){}
 
-  warriorList() {
-    return this.http.get<{data : Warrior[]}>(`${this.apiUrl}${ApiPath.warrior}`);
+  warriorList(page: number = 0, size: number = 8) : Observable<ApiResponse<Page<Warrior>>> {
+    const params = {
+      page : page.toString(),
+      size : size.toString()
+    };
+    return this.http.get<ApiResponse<Page<Warrior>>>(`${this.apiUrl}${ApiPath.warrior}`, { params });
   }
 
   getWarriorById(warriorId : number) : Observable<ApiResponse<Warrior>>{
