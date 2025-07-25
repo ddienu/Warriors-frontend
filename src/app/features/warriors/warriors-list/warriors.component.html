@@ -1,7 +1,7 @@
 <app-header *ngIf="showHeader"></app-header>
 <main>
-  <div [ngClass]="['p-6 from-gray-100 to-gray-200 min-h-screen', marginTop]">
-    <h1 class="text-4xl font-bold text-center text-purple-500 mb-8">⚔️ Warriors Directory</h1>
+  <div [ngClass]="[paddingWarriors, 'from-gray-100 to-gray-200 min-h-screen', marginTop]">
+    <h1 *ngIf="showTitle" class="text-4xl font-bold text-center text-purple-500 mb-8">⚔️ Warriors Directory</h1>
     <div class="w-full text-center my-4">
       <button *ngIf="role==='ADMIN'"
         class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
@@ -12,10 +12,10 @@
 
     <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       <div *ngFor="let warrior of warriors"
-        class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
+        class="bg-black/70 backdrop-blur-3xl shadow-md border-2 rounded-2xl overflow-hidden transition-all duration-300"
         [ngClass]="{
-    'ring-4 ring-indigo-500 scale-105': selectedWarriorIds.includes(warrior.warriorId),
-    'hover:scale-105': selectionMode
+    'ring-8 ring-indigo-500 scale-105': selectedWarriorIds.includes(warrior.warriorId),
+    'hover:scale-105 cursor-pointer': selectionMode
   }" (click)="selectionMode ? toggleSelection(warrior.warriorId) : null">
         <!-- Imagen del guerrero -->
         <div [ngSwitch]="warrior.warriorBreed.breedName" class="w-40 h-40 rounded-full overflow-hidden mx-auto mt-6">
@@ -93,8 +93,41 @@
       </div>
     </div>
 
+
+
     <div *ngIf="warriors.length === 0" class="text-center mt-10 text-gray-500">
       No warriors found.
     </div>
   </div>
+
+  <!-- Button to handle the player creation module -->
+  <div *ngIf="selectionMode" class="flex justify-center my-8">
+    <button type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg transition"
+    (click)="onCreatePlayer()">
+      Crear jugador
+    </button>
+  </div>
+  <!-- Button to handle the player creation module -->
+
+  <!-- Start Pagination module -->
+
+  <div class="flex justify-center mt-8 space-x-2 min-h-100 mb-8">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0" class="px-4 py-2 rounded bg-gray-300"
+      [ngClass]="{
+                'hover:bg-indigo-500 hover:text-white': currentPage > 0,
+                'opacity-50 cursor-not-allowed': currentPage === 0
+              }">Anterior</button>
+
+    <span class="px-4 py-2 text-white">
+      Página {{ currentPage + 1 }} de {{ totalPages }}
+    </span>
+
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages"
+      class="px-4 py-2 rounded bg-gray-300" [ngClass]="{
+          'hover:bg-indigo-500 hover:text-white': currentPage + 1 < totalPages,
+          'disabled opacity-50 cursor-not-allowed' : currentPage + 1 >= totalPages
+        }">Siguiente</button>
+  </div>
+
+  <!-- End pagination module -->
 </main>

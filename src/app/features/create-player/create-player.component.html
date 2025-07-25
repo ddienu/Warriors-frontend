@@ -1,32 +1,35 @@
 <app-header></app-header>
 <main>
-<div *ngIf="!isPlayerRegistered" class="max-w-[85%] mx-auto mt-28 p-6 text-white">
-  <h1 class="text-4xl font-bold mb-6 text-center">🛡️ Crear jugador</h1>
+<div *ngIf="!isPlayerRegistered" class="max-w-[85%] mx-auto mt-28 p-6">
+  <h1 class="text-4xl font-bold mb-6 text-center text-white">🛡️ Crear jugador</h1>
 
   <form [formGroup]="createPlayerForm" (ngSubmit)="submit()" class="space-y-4">
     <label class="block">
-      <span class="block text-sm font-medium text-white mb-1">Nickname</span>
+      <span class="block text-xl font-medium text-white mb-3">Nickname: </span>
       <input formControlName="nickname" type="text" placeholder="Ingresa tu nombre de jugador"
         class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-500">
     </label>
 
     <div>
-      <h2 class="text-xl font-semibold mb-2">Selecciona 5 guerreros</h2>
+      <h2 class="text-xl font-semibold mt-4 text-white">Selecciona 5 guerreros</h2>
       <app-warriors
+        [paddingWarriors]="'p-2'"
+        [showTitle]="false"
         [selectionMode]="true"
         [maxSelectable]="5"
         [showHeader]="false"
         [marginTop]="'mt-2'"
         (selectionChange)="onWarriorSelectionChanged($event)"
+        (createPlayerButton)="submit()"
       ></app-warriors>
+      <!-- <div class="flex justify-center mt-4">
+        <button type="submit"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg transition">
+          Crear jugador
+        </button>
+      </div> -->
     </div>
 
-    <div class="flex justify-end mt-4">
-      <button type="submit"
-        class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg transition">
-        Crear jugador
-      </button>
-    </div>
   </form>
 </div>
 

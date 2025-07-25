@@ -9,6 +9,7 @@ import { PlayerService } from '../../core/services/player.service';
 import { CreatePlayer } from './model/createPlayer.model';
 import Swal from 'sweetalert2';
 import { PlayerResponse, Warrior } from './model/playerResponse.model';
+import { AlertService } from '../../core/services/alert.service';
 
 @Component({
   selector: 'app-create-player',
@@ -28,7 +29,8 @@ export default class CreatePlayerComponent implements OnInit {
     private fb: FormBuilder,
     private playerService: PlayerService,
     private jwtService: JwtService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.createPlayerForm = this.fb.group({
       nickname: ['', [Validators.required, Validators.minLength(3)]],
@@ -62,7 +64,13 @@ export default class CreatePlayerComponent implements OnInit {
   // Enviar datos al backend
   submit() {
     if (this.createPlayerForm.invalid || this.selectedWarriorIds.length !== 5) {
-      alert('Selecciona 5 guerreros y un nickname válido');
+        this.alertService.fire({
+          position: "top-end",
+          icon: "error",
+          title: 'Selecciona 5 guerreros y un nickname válido',
+          showConfirmButton: false,
+          timer: 2200
+        });
       return;
     }
     
