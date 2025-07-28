@@ -49,7 +49,7 @@ export default class WarriorsComponent implements OnInit {
       next: (response) => {
         // console.log(response.data.content)
         this.warriors = response.data.content;
-        this.currentPage = response.data.number;
+        this.currentPage = response.data.pageNumber;
         this.totalPages = response.data.totalPages
         // console.log(this.currentPage, this.totalPages);>
 

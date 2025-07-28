@@ -42,7 +42,6 @@ export default class AuthComponent {
     const loginFormValue = this.loginForm.value;
     this.authService.login(loginFormValue).subscribe({
       next: (response) => {
-        console.log(response);
         Swal.fire({
           position: "top-end",
           icon: "success",
