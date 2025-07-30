@@ -10,6 +10,7 @@ import { CreatePlayer } from './model/createPlayer.model';
 import Swal from 'sweetalert2';
 import { PlayerResponse, Warrior } from './model/playerResponse.model';
 import { AlertService } from '../../core/services/alert.service';
+import AlertUtil from '../../shared/utils/AlertUtil.util';
 
 @Component({
   selector: 'app-create-player',
@@ -41,16 +42,17 @@ export default class CreatePlayerComponent implements OnInit {
     if(!userId){
       return;
     }
+    this.getPlayerByUserId(userId);
+  }
+
+  getPlayerByUserId(userId : number) {
     this.playerService.getPlayerByUserId(userId).subscribe({
       next: (response) => {
-        this.isPlayerRegistered = true
+        this.isPlayerRegistered = true;
         this.playerFounded = response.data;
-        console.log(this.playerFounded);
-        console.log(this.isPlayerRegistered);
-        // console.log(this.playerFounded);
       },
       error: (error) => {
-        console.error(error);
+        console.error("Error retrieving player by userId", error);
         this.isPlayerRegistered = false;
       }
     })
@@ -64,13 +66,7 @@ export default class CreatePlayerComponent implements OnInit {
   // Enviar datos al backend
   submit() {
     if (this.createPlayerForm.invalid || this.selectedWarriorIds.length !== 5) {
-        this.alertService.fire({
-          position: "top-end",
-          icon: "error",
-          title: 'Selecciona 5 guerreros y un nickname válido',
-          showConfirmButton: false,
-          timer: 2200
-        });
+      AlertUtil.error("Selecciona 5 guerreros y un nickname válido");
       return;
     }
     
@@ -85,45 +81,13 @@ export default class CreatePlayerComponent implements OnInit {
     this.playerService.createPlayer(request).subscribe({
       next: (response) => {
         console.log(response);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: response.message,
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          window.location.reload();
-        });
+        AlertUtil.success(response.message).then(() => {this.getPlayerByUserId(userIdFromToken)});
       },
       error: (err) => {
-        console.error(err);
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: err.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
+        console.error("Error creating player", err);
+        AlertUtil.error(err.error.message);
       }
     });
-  }
-
-  //Method that verifies if the userId saved on the token has a player already
-  loadPlayerIfExists() {
-    // return this.playerService.getPlayerByUserId().subscribe({
-    //   next: (response) => {
-    //     this.playerFounded = response['data']
-    //     console.log(this.playerFounded);
-    //   },
-    //   error: (error) => {
-    //     console.error(error);
-    //     this.playerFounded = undefined;
-    //   }
-    // })
-  }
-
-  showAlert(){
-    alert("Entrando");
   }
 }
 

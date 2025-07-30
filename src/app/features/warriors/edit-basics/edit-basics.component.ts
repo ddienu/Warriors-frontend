@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { WarriorService } from '../../../core/services/warrior.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Warrior } from '../models/warrior.model';
 import { HeaderComponent } from '../../header/header.component';
+import { AlertService } from '../../../core/services/alert.service';
+import AlertUtil from '../../../shared/utils/AlertUtil.util';
 
 @Component({
   selector: 'app-edit-basics',
@@ -17,7 +19,13 @@ export default class EditBasicsComponent implements OnInit{
   public warriorUpdated : FormGroup;
   private warriorId! : number;
 
-  constructor(private warriorService : WarriorService, private route : ActivatedRoute, private fb : FormBuilder){
+  constructor(
+    private warriorService : WarriorService, 
+    private route : ActivatedRoute, 
+    private fb : FormBuilder,
+    private alertService : AlertService,
+    private router : Router
+  ){
     this.warriorUpdated = this.fb.group({
       warriorName : ['', Validators.required],
       warriorLife : [0, [Validators.required, Validators.min(1)]],
@@ -25,9 +33,9 @@ export default class EditBasicsComponent implements OnInit{
     })
   }
   ngOnInit(): void {
-    const warriorId = this.route.snapshot.paramMap.get('id');
-    if( warriorId ){
-      this.loadWarrior(+warriorId);
+    this.warriorId = +this.route.snapshot.paramMap.get('id')!;
+    if( this.warriorId ){
+      this.loadWarrior(this.warriorId);
     }
   }
 
@@ -47,20 +55,21 @@ export default class EditBasicsComponent implements OnInit{
   
   updateWarriorBasics() : void {
 
-    const warriorId = +this.route.snapshot.paramMap.get('id')!;
     if (this.warriorUpdated.valid) {
       const data = this.warriorUpdated.value;
-      this.warriorService.updateWarriorBasics(warriorId, data).subscribe({
-        next: (res) => {
-          // Puedes mostrar una alerta o redireccionar
-          console.log('Guerrero actualizado', res);
+      this.warriorService.updateWarriorBasics(this.warriorId, data).subscribe({
+        next: () => {
+          AlertUtil.success("Guerrero actualizado satisfactoriamente").then( () => {this.router.navigate(['/warriors']);
+          });
         },
         error: (err) => {
           console.error('Error actualizando guerrero', err);
+          AlertUtil.error(err.err.message);
         }
       });
     } else {
       this.warriorUpdated.markAllAsTouched();
+      AlertUtil.info("Campos fantantes por diligenciar");
     }
   }
 

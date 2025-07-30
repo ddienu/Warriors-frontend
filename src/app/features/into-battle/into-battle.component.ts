@@ -9,6 +9,7 @@ import { PlayerResponse } from '../create-player/model/playerResponse.model';
 import { SimulateBattleModel } from '../match/model/simulateBattle.model';
 import Swal from 'sweetalert2';
 import { AlertService } from '../../core/services/alert.service';
+import AlertUtil from '../../shared/utils/AlertUtil.util';
 
 @Component({
   selector: 'app-into-battle',
@@ -62,15 +63,7 @@ findMatchById(matchId: number): void {
         });
 
       } else {
-          this.alertService.fire({
-            position: "top-end",
-            icon: "error",
-            title: "The match is already closed",
-            showConfirmButton: false,
-            timer: 1500
-          }).then(() => {
-            this.router.navigate(['/match']);
-          });
+        AlertUtil.success("La partida se encuentra cerrada.").then(() => {this.router.navigate(['/match'])});
       }
     },
     error: (error) => {
@@ -99,13 +92,7 @@ findMatchById(matchId: number): void {
         });
       },
       error: (error) => {
-        this.alertService.fire({
-          position: "top-end",
-          icon: "error",
-          title: error.error.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
+        AlertUtil.error(error.error.message);
       }
     });
   }

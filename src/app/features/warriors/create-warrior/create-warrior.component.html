@@ -1,13 +1,13 @@
 <app-header></app-header>
 <div class="max-w-2xl mx-auto mt-10 shadow-5xl rounded-2xl p-8 space-y-6">
-  <h2 class="text-4xl font-bold text-indigo-800 mb-6 flex items-center gap-2 justify-center">
+  <h2 class="text-4xl font-bold text-purple-500 my-6 flex items-center gap-2 justify-center text-center">
     ⚔️Crear Nuevo Guerrero
   </h2>
 
   <form [formGroup]="warriorForm" (ngSubmit)="onSubmit()" class="space-y-4">
     <!-- Nombre -->
     <div class="mt-10">
-      <label class="block text-lg font-semibold text-gray-800">Nombre del Guerrero:</label>
+      <label class="block text-lg font-semibold text-white">Nombre del Guerrero:</label>
       <input type="text" formControlName="warriorName"
         class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-3 text-gray-800" />
     </div>
@@ -15,13 +15,13 @@
     <!-- Vida y Energía -->
     <div class="grid grid-cols-2 gap-4">
       <div>
-        <label class="block text-lg font-semibold text-gray-800">Vida:</label>
+        <label class="block text-lg font-semibold text-white">Vida:</label>
         <input type="number" formControlName="warriorLife"
           class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 p-3 text-gray-800" />
       </div>
 
       <div>
-        <label class="block text-lg font-medium text-gray-800">Energía:</label>
+        <label class="block text-lg font-medium text-white">Energía:</label>
         <input type="number" formControlName="warriorEnergy"
           class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 p-3 text-gray-800" />
       </div>
@@ -29,7 +29,8 @@
   
     <!-- Poderes -->
     <div class="w-full justify-between">
-      <label class="block text-lg font-medium text-gray-800 mb-4">Poderes</label>
+      <label class="block text-lg font-medium text-white">Poderes</label>
+      <p class="text-xs text-orange-600 mb-4 font-semibold">Haz clic para seleccionar o deseleccionar poderes.</p>
       <div class="flex flex-wrap gap-9">
         <div *ngFor="let power of powers"
              (click)="togglePower(power.powerId)"
@@ -48,12 +49,11 @@
              <span>{{ power.powerName }}</span>
         </div>
       </div>
-      <p class="text-xs text-orange-600 mt-2 font-semibold">Haz clic para seleccionar o deseleccionar poderes.</p>
     </div>
 
     <!-- Tipo -->
     <div>
-    <label class="block text-lg font-bold text-gray-700">Tipo de guerrero:</label>
+    <label class="block text-lg font-bold text-white">Tipo de guerrero:</label>
     <p class="text-xs text-orange-600 font-semibold mb-4">Haz clic para seleccionar el tipo de guerrero</p>
     <div class="grid grid-cols-2 gap-4">    
       <div *ngFor="let type of typeWarriors"
@@ -84,7 +84,7 @@
 
     <!-- Raza -->
     <div>
-      <label class="block text-lg font-bold text-gray-800">Raza:</label>
+      <label class="block text-lg font-bold text-white">Raza:</label>
       <p class="text-xs text-orange-600 mb-4 font-semibold">Haz clic para seleccionar la raza del guerrero</p>
       <div class="grid grid-cols-2 gap-4">    
         <div *ngFor="let breed of breeds"

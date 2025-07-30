@@ -7,10 +7,12 @@ import { Breed } from '../../breedWarrior/models/breed.model';
 import { TypeWarrior } from '../../typeWarrior/models/typeWarrior.model';
 import { BreedService } from '../../../core/services/breed.service';
 import { TypeWarriorService } from '../../../core/services/type-warrior.service';
-import { Warrior } from '../models/warrior.model';
 import { createWarriorDTO } from '../models/createWarrior.dto';
 import { WarriorService } from '../../../core/services/warrior.service';
 import { HeaderComponent } from '../../header/header.component';
+import { AlertService } from '../../../core/services/alert.service';
+import { Router } from '@angular/router';
+import AlertUtil from '../../../shared/utils/AlertUtil.util';
 
 
 @Component({
@@ -32,6 +34,8 @@ export default class CreateWarriorComponent implements OnInit{
     private breedService : BreedService,
     private typeWarriorService : TypeWarriorService,
     private warriorService : WarriorService,
+    private alertService : AlertService,
+    private router : Router,
     private fb : FormBuilder) {
     this.warriorForm = this.fb.group({
       warriorName : ['', Validators.required],
@@ -53,7 +57,6 @@ export default class CreateWarriorComponent implements OnInit{
   getPowers() : void {
     this.powerService.getPowers().subscribe({
       next: (response) => {
-        console.log(response);
         this.powers = response.data;
       },
       error: (error) => {
@@ -68,7 +71,6 @@ export default class CreateWarriorComponent implements OnInit{
   getBreeds() : void {
     this.breedService.getBreeds().subscribe({
       next : (response) => {
-        console.log(response.data);
         this.breeds = response.data;
       },
       error : (error) => {
@@ -83,7 +85,6 @@ export default class CreateWarriorComponent implements OnInit{
   getTypeWarriors() : void {
     this.typeWarriorService.getTypeWarriors().subscribe({
       next : (response) => {
-        console.log(response.data);
         this.typeWarriors = response.data;
       },
       error : (error) => {
@@ -106,13 +107,13 @@ export default class CreateWarriorComponent implements OnInit{
         breedWarrior : Number(formValue.breedWarrior)
       }
       
-
       this.warriorService.createWarrior(newWarrior).subscribe({
-        next : (response) => {
-          console.log(response.message);
+        next : () => {
+          AlertUtil.success("Guerrero creado satisfactoriamente").then(() => {this.router.navigate(['/warriors'])});
         },
         error : (error) => {
-          console.error("Error creating new warrior", error)
+          console.error("Error creating new warrior", error);
+          AlertUtil.error(error.error.message);
         },
         complete : () => {
           console.log("Creación del nuevo guerrero finalizada.");
@@ -120,6 +121,8 @@ export default class CreateWarriorComponent implements OnInit{
       })
     }else{
       this.warriorForm.markAllAsTouched();
+      AlertUtil.info("Campos faltantes por diligenciar");
+      return;
     }
   }
 

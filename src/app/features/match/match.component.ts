@@ -12,6 +12,7 @@ import { JwtService } from '../../core/services/jwt.service';
 import { AlertService } from '../../core/services/alert.service';
 import { MatchRequest } from './model/matchRequest.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import AlertUtil from '../../shared/utils/AlertUtil.util';
 
 @Component({
   selector: 'app-match',
@@ -54,20 +55,13 @@ export default class MatchComponent implements OnInit {
         this.matches = response.data;
       },
       error: (error) => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: error.error.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      },
+        AlertUtil.error(error.error.message);
+      }
     });
   }
 
   joinMatch(matchId: number) {
-    this.alertService
-      .fire({
+    this.alertService.fire({
         title: 'Código de la partida',
         input: 'text',
         inputLabel: 'Ingresa el código de la partida',
@@ -90,28 +84,16 @@ export default class MatchComponent implements OnInit {
             matchCode: matchCode,
           };
           this.matchService.joinMatch(joinMatchPayload).subscribe({
-            next: (response) => {
-              this.alertService
-                .fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: response.message,
-                  showConfirmButton: false,
-                  timer: 1500,
-                })
-                .then(() => {
-                  this.router.navigate([`/into-battle/${matchId}`]);
-                });
+            next: () => {
+              AlertUtil.success("Uniéndose a la partida...").then(() => {this.router.navigate([`/into-battle/${matchId}`])});
             },
             error: (error) => {
               console.error('Error uniéndose a la partida', error);
-              this.alertService.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: error.error.message,
-                showConfirmButton: false,
-                timer: 2000,
-              });
+              if(error.error.message.includes("Incorrect provided code")){
+                AlertUtil.error("El código ingresado no es correcto");
+                return;
+              }
+              AlertUtil.error("Error al unirse a la partida");
             },
           });
         }
@@ -126,7 +108,6 @@ export default class MatchComponent implements OnInit {
     return this.playerService.getPlayerByUserId(userId).subscribe({
       next: (response) => {
         this.playerIdFounded = response.data.playerId;
-        console.log(this.playerIdFounded);
       },
       error: (error) => {
         console.error('Error en getPlayerId de match', error);
@@ -169,19 +150,14 @@ export default class MatchComponent implements OnInit {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              window.location.reload();
+              this.showModal = false;
+              this.getMatches();
             }
           });
       },
       error: (error) => {
         console.error("Error al crear la partida", error);
-        this.alertService.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: error.error.message,
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        AlertUtil.error(error.error.message);
       },
     });
   }

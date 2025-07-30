@@ -2,11 +2,12 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { WarriorService } from '../../../core/services/warrior.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Warrior } from '../models/warrior.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
 import { JwtService } from '../../../core/services/jwt.service';
+import AlertUtil from '../../../shared/utils/AlertUtil.util';
 
 @Component({
   selector: 'app-warriors',
@@ -22,12 +23,12 @@ export default class WarriorsComponent implements OnInit {
   warriors: Warrior[] = [];
   role: string = "";
   selectedWarriorIds: number[] = [];
-  currentPage:number=0;
-  totalPages:number=0;
-  pageSize:number=8;
-  @Input() paddingWarriors : string = "p-8"
-  @Input() showTitle : boolean = true;
-  @Input() marginTop : string = "mt-24";
+  currentPage: number = 0;
+  totalPages: number = 0;
+  pageSize: number = 8;
+  @Input() paddingWarriors: string = "p-8"
+  @Input() showTitle: boolean = true;
+  @Input() marginTop: string = "mt-24";
   @Input() showHeader: boolean = true;
   @Input() selectionMode: boolean = false;
   @Input() maxSelectable: number = 0;
@@ -36,7 +37,11 @@ export default class WarriorsComponent implements OnInit {
   @Output() createPlayerButton = new EventEmitter<void>();
 
 
-  constructor(private warriorService: WarriorService, private jwtService: JwtService) { }
+  constructor(
+    private warriorService: WarriorService,
+    private jwtService: JwtService,
+    private router: Router
+  ) { }
 
 
   ngOnInit(): void {
@@ -47,12 +52,15 @@ export default class WarriorsComponent implements OnInit {
   loadAllWarrior() {
     this.warriorService.warriorList(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
-        // console.log(response.data.content)
+        if(response.data.content.length === 0 && this.currentPage >= 1){
+          this.currentPage--;
+          this.loadAllWarrior();
+          return;
+        }
+
         this.warriors = response.data.content;
         this.currentPage = response.data.pageNumber;
         this.totalPages = response.data.totalPages
-        // console.log(this.currentPage, this.totalPages);>
-
       },
       error: (error) => {
         console.error('Error loading warriors', error);
@@ -61,8 +69,16 @@ export default class WarriorsComponent implements OnInit {
   }
 
   deleteWarrior(warriorId: number): void {
-    this.warriorService.deleteWarrior(warriorId).subscribe(() => {
-      this.loadAllWarrior();
+    AlertUtil.confirm("¿Desea eliminar el guerrero?").then((result) => {
+      if (result.isConfirmed) {
+        this.warriorService.deleteWarrior(warriorId).subscribe(() => {
+          AlertUtil.success("El guerrero ha sido eliminado satisfactoriamente").then(
+            () => {
+              this.loadAllWarrior();
+            }
+          );
+        })
+      }
     })
   }
 
@@ -89,7 +105,7 @@ export default class WarriorsComponent implements OnInit {
     }
   }
 
-  onCreatePlayer(){
+  onCreatePlayer() {
     this.createPlayerButton.emit();
   }
 }
