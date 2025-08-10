@@ -8,6 +8,14 @@
         [routerLink]="['/warrior/create']">
         Crear Guerrero
       </button>
+        <!-- Button to handle the player creation module -->
+  <div *ngIf="selectionMode" class="flex justify-end mb-6">
+    <button type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-full transition"
+    (click)="onCreatePlayer()">
+      {{ buttonText }}
+    </button>
+  </div>
+  <!-- Button to handle the player creation module -->
     </div>
 
     <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -100,34 +108,33 @@
     </div>
   </div>
 
-  <!-- Button to handle the player creation module -->
-  <div *ngIf="selectionMode" class="flex justify-center my-8">
-    <button type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg transition"
-    (click)="onCreatePlayer()">
-      Crear jugador
-    </button>
-  </div>
-  <!-- Button to handle the player creation module -->
-
   <!-- Start Pagination module -->
 
   <div class="flex justify-center mt-8 space-x-2 min-h-100 mb-8">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0" class="px-4 py-2 rounded bg-gray-300"
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0" class="px-2 py-2 rounded bg-gray-300 text-sm"
       [ngClass]="{
                 'hover:bg-indigo-500 hover:text-white': currentPage > 0,
                 'opacity-50 cursor-not-allowed': currentPage === 0
               }">Anterior</button>
 
-    <span class="px-4 py-2 text-white">
+    <span class="px-2 py-2 text-white text-sm">
       Página {{ currentPage + 1 }} de {{ totalPages }}
     </span>
 
     <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages"
-      class="px-4 py-2 rounded bg-gray-300" [ngClass]="{
+      class="px-2 py-2 rounded bg-gray-300 text-sm" [ngClass]="{
           'hover:bg-indigo-500 hover:text-white': currentPage + 1 < totalPages,
           'disabled opacity-50 cursor-not-allowed' : currentPage + 1 >= totalPages
         }">Siguiente</button>
   </div>
 
   <!-- End pagination module -->
+           <!-- Button to handle the player creation module -->
+  <div *ngIf="selectionMode" class="flex justify-end mb-6">
+    <button type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-full transition"
+    (click)="onCreatePlayer()">
+      {{ buttonText }}
+    </button>
+  </div>
+  <!-- Button to handle the player creation module -->
 </main>

@@ -32,9 +32,11 @@ export default class WarriorsComponent implements OnInit {
   @Input() showHeader: boolean = true;
   @Input() selectionMode: boolean = false;
   @Input() maxSelectable: number = 0;
+  @Input() buttonText:string = "Crear jugador";
   @Output() selectionChange = new EventEmitter<number[]>();
   // Output to emit the event to parent from the children component
   @Output() createPlayerButton = new EventEmitter<void>();
+
 
 
   constructor(
