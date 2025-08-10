@@ -25,6 +25,7 @@ export default class CreatePlayerComponent implements OnInit {
   selectedWarriorIds:number[]=[];
   isPlayerRegistered:boolean=false;
   playerFounded: PlayerResponse | null = null;
+  playerEdit:boolean=false;
   
   constructor(
     private fb: FormBuilder,
@@ -37,6 +38,7 @@ export default class CreatePlayerComponent implements OnInit {
       nickname: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
+  
   ngOnInit(): void {
     const userId = +this.jwtService.getUserIdFromToken();
     if(!userId){
@@ -89,5 +91,48 @@ export default class CreatePlayerComponent implements OnInit {
       }
     });
   }
-}
 
+  editSelectedWarriors(){
+    AlertUtil.confirm('¿Deseas editar tu jugador?').then(
+      (response) => {
+        if(response.isConfirmed){
+          this.playerEdit = true;
+          this.createPlayerForm.patchValue({
+            nickname: this.playerFounded?.nickname
+          });
+          this.createPlayerForm.get('nickname')?.disable();
+        }
+      }
+    )
+  }
+
+  submitEditPlayer() {
+    if (this.createPlayerForm.invalid || this.selectedWarriorIds.length !== 5) {
+      AlertUtil.error("Selecciona 5 guerreros");
+      return;
+    }
+    
+    const userIdFromToken = +this.jwtService.getUserIdFromToken();
+
+    const playerEdited : CreatePlayer = {
+      nickname: this.createPlayerForm.value.nickname,
+      warriorsIdSelected: this.selectedWarriorIds,
+      userId: userIdFromToken
+    };
+
+    this.playerService.editPlayer(+this.playerFounded!.playerId, playerEdited).subscribe({
+      next:( response) => {
+        AlertUtil.success("El jugador fue actualizado con éxito").then(
+          () => {
+            this.isPlayerRegistered = true;
+            this.playerEdit = false;
+            this.getPlayerByUserId(userIdFromToken);
+          }
+        );
+      },
+      error: (error)=>{
+        console.error(error);
+      }
+    })
+  }
+}
