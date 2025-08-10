@@ -34,4 +34,8 @@ export class PlayerService {
   createPlayer(playerPayload : CreatePlayer) : Observable<ApiResponse<CreatePlayer>>{
     return this.http.post<ApiResponse<CreatePlayer>>(`${this.apiUrl}${ApiPath.player}`, playerPayload);
   }
+
+  editPlayer(playerId : number, playerEditedPayload : CreatePlayer) : Observable<ApiResponse<CreatePlayer>>{
+    return this.http.put<ApiResponse<CreatePlayer>>(`${this.apiUrl}${ApiPath.player}/${playerId}`, playerEditedPayload);
+  }
 }
