@@ -48,5 +48,9 @@ export const routes: Routes = [
     {
         path:'into-battle/:matchId',
         loadComponent: () => import('./features/into-battle/into-battle.component')
-    }
+    },
+    {
+        path:'players',
+        loadComponent: () => import('./features/players/players.component')
+    },
 ];
