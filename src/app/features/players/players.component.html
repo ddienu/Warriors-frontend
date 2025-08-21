@@ -1,0 +1,96 @@
+<app-header></app-header>
+<section class="min-h-screen">
+    <div class="px-12 py-6 text-white mt-24">
+    <h1 class="text-4xl font-bold text-center text-purple-500 mb-8">⚔️ Lista de jugadores</h1>
+
+  <!-- Barra de búsqueda -->
+  <div class="flex items-center mb-6 gap-4">
+    <input
+      [(ngModel)]="nickname"
+      type="text"
+      placeholder="Buscar jugador..."
+      class="px-4 py-2 w-full rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+    <button
+      class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white"
+      (click)="getPlayers()"
+    >
+      Buscar
+    </button>
+    <button
+      class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white"
+      (click)="clearSearch()"
+    >
+      Todos
+    </button>
+  </div>
+
+  <!-- Tabla de jugadores -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-gray-900 opacity-80 rounded-lg shadow-lg">
+      <thead>
+        <tr class="bg-purple-700 text-center text-sm uppercase tracking-wider">
+          <th class="py-3 px-6">Jugador ID</th>
+          <th class="py-3 px-6">Nickname</th>
+          <th class="py-3 px-6">Correo electrónico</th>
+          <th class="py-3 px-6">Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let player of players">
+        <tr class="hover:bg-gray-800 border-b border-gray-700 text-center">
+          <td class="py-3 px-6">{{ player.playerId}}</td>
+          <td class="py-3 px-6">{{ player.nickname }}</td>
+          <td class="py-3 px-6">{{ player.user.email }}</td>
+          <td class="py-3 px-6 flex justify-around">
+            <button class="bg-red-600 px-3 py-1 rounded-lg hover:bg-red-700" (click)="deletePlayer(player.playerId)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Start Pagination module -->
+
+  <div class="flex justify-center mt-8 space-x-2 min-h-100 mb-8">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0" class="px-2 py-2 rounded bg-gray-300 text-sm"
+      [ngClass]="{
+                'hover:bg-indigo-500 hover:text-white': currentPage > 0,
+                'opacity-50 cursor-not-allowed': currentPage === 0
+              }">Anterior</button>
+
+    <span class="px-2 py-2 text-white text-sm">
+      Página {{ currentPage + 1 }} de {{ totalPages }}
+    </span>
+
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages"
+      class="px-2 py-2 rounded bg-gray-300 text-sm" [ngClass]="{
+          'hover:bg-indigo-500 hover:text-white': currentPage + 1 < totalPages,
+          'disabled opacity-50 cursor-not-allowed' : currentPage + 1 >= totalPages
+        }">Siguiente</button>
+  </div>
+
+  <!-- End pagination module -->
+</section>
+
+<!-- Modal para mostrar el histórico de partidas del jugador del jugador -->
+<div 
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  *ngIf="openModal"
+>
+  <!-- Contenedor del modal -->
+  <div class="bg-indigo-600 rounded-2xl shadow-xl p-6 w-full max-w-md relative">
+    
+    <!-- Botón cerrar -->
+    <button 
+      (click)="closeModal()" 
+      class="absolute top-2 right-2 text-gray-400 hover:text-white text-2xl font-bold">
+      &times;
+    </button>
+
+    <!-- Título -->
+    <h2 class="text-2xl font-semibold mb-4 text-center text-white">Histórico de partidas</h2>
+  </div>
+</div>
