@@ -20,9 +20,9 @@
     <nav class="hidden md:flex gap-6 text-white font-medium">
       <a routerLink="" class="hover:text-indigo-300 transition hover:cursor-pointer">Inicio</a>
       <a routerLink="/warriors" class="hover:text-indigo-300 transition hover:cursor-pointer">Guerreros</a> 
-      <!-- <a *ngif="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Crea tu jugador</a>  -->
        <a *ngIf="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Tu jugador</a> 
       <a *ngIf="role!==''" routerLink="/match" class="hover:text-indigo-300 transition hover:cursor-pointer">Batalla</a> 
+      <a *ngIf="role!==''&&role==='ADMIN'" routerLink="/players" class="hover:text-indigo-300 transition hover:cursor-pointer">Jugadores</a> 
     </nav>
 
     <!-- Botón login desktop -->
@@ -46,9 +46,16 @@
       <a routerLink="/warriors" class="hover:text-indigo-300 transition">Guerreros</a>
       <a routerLink="/powers" class="hover:text-indigo-300 transition">Poderes</a>
       <a routerLink="/about" class="hover:text-indigo-300 transition">Nosotros</a>
-      <button class="mt-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition">
+      <div *ngIf="role===''" >
+      <button class="mt-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition" routerLink="/auth">
         Iniciar sesión
       </button>
+      </div>
+      <div *ngIf="role!==''">
+      <button class="mt-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition" (click)="logout()">
+        Cerrar sesión
+      </button>
+      </div>
     </nav>
   </div>
 </header>
