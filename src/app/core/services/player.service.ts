@@ -43,13 +43,6 @@ export class PlayerService {
     return this.http.get<ApiResponse<PlayerResponse>>(`${this.apiUrl}${ApiPath.player}/user/${userId}`);
   }
 
-  findPlayersByNickname(nickname: string): Observable<ApiResponse<Page<Player>>> {
-    const params = {
-      nickname: nickname
-    };
-    return this.http.get<ApiResponse<Page<Player>>>(`${this.apiUrl}${ApiPath.player}/search`, { params });
-  }
-
   createPlayer(playerPayload: CreatePlayer): Observable<ApiResponse<CreatePlayer>> {
     return this.http.post<ApiResponse<CreatePlayer>>(`${this.apiUrl}${ApiPath.player}`, playerPayload);
   }
