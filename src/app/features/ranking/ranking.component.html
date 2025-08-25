@@ -1,0 +1,84 @@
+<app-header></app-header>
+<section>
+  <div class="min-h-screen text-white py-10 px-6 mt-24 opacity-80">
+    <div class="max-w-5xl mx-auto">
+      <!-- Título -->
+      <h1 class="text-4xl font-bold text-center text-purple-500 mb-8">🏆 Clasificación general</h1>
+
+      <!-- Tabla de ranking -->
+      <div class="overflow-x-auto bg-gray-800 rounded-2xl shadow-xl">
+        <table class="table-auto w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-purple-700 text-center text-lg font-bold tracking-wider">
+              <th class="py-4 px-6">Posición</th>
+              <th class="py-4 px-6">Jugador</th>
+              <th class="py-4 px-6">Puntos</th>
+              <th class="py-4 px-6">Partidas Ganadas</th>
+              <th class="py-4 px-6">Partidas Perdidas</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tbody>
+            <tr *ngFor="let player of players; let i = index"
+              class="border-b border-gray-700 text-center hover:bg-gray-700" [ngClass]="{
+                'bg-yellow-500/50 hover:bg-yellow-400/50' : i === 0 && currentPage === 0,
+                'bg-gray-300/50 hover:bg-gray-200/50' : i === 1 && currentPage === 0,
+                'bg-orange-800/50 hover:bg-orange-700/50' : i === 2 && currentPage === 0
+              }">
+              <td class="py-4 px-6 text-lg font-bold">
+                <ng-container *ngIf="currentPage === 0; else normalPosition" [ngSwitch]="i">
+                  <span class="text-4xl" *ngSwitchCase="0">🥇</span>
+                  <span class="text-3xl" *ngSwitchCase="1">🥈</span>
+                  <span class="text-2xl" *ngSwitchCase="2">🥉</span>
+                  <span class="text-sm" *ngSwitchDefault>{{ (currentPage * pageSize) + (i + 1) }}</span>
+                </ng-container>
+
+                <ng-template #normalPosition>
+                  <span class="text-sm">
+                    {{ (currentPage * pageSize) + (i + 1) }}
+                  </span>
+                </ng-template>
+              </td>
+
+              <td class="py-4 px-6 font-semibold">
+                {{ player.nickname }}
+              </td>
+              <td class="py-4 px-6 text-center font-bold">
+                {{ player.points }}
+              </td>
+              <td class="py-4 px-6 text-center">
+                {{ player.gamesWon }}
+              </td>
+              <td class="py-4 px-6 text-center">
+                {{ player.gamesLost }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Start Pagination module -->
+    <div class="flex justify-center mt-8 space-x-2 min-h-100 mb-8 text-black">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0"
+        class="px-2 py-2 rounded bg-gray-300 text-sm" [ngClass]="{
+                  'hover:bg-indigo-500 hover:text-white': currentPage > 0,
+                  'opacity-50 cursor-not-allowed': currentPage === 0
+                }">Anterior</button>
+  
+      <span class="px-2 py-2 text-white text-sm">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+  
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages"
+        class="px-2 py-2 rounded bg-gray-300 text-sm" [ngClass]="{
+            'hover:bg-indigo-500 hover:text-white': currentPage + 1 < totalPages,
+            'disabled opacity-50 cursor-not-allowed' : currentPage + 1 >= totalPages
+          }">Siguiente</button>
+    </div>
+  
+  
+    <!-- End pagination module -->
+  </div>
+
+</section>
