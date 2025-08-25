@@ -20,10 +20,12 @@
     <nav class="hidden md:flex gap-6 text-white font-medium">
       <a routerLink="" class="hover:text-indigo-300 transition hover:cursor-pointer">Inicio</a>
       <a routerLink="/warriors" class="hover:text-indigo-300 transition hover:cursor-pointer">Guerreros</a> 
-       <a *ngIf="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Tu jugador</a> 
+      <a *ngIf="role!==''" routerLink="/create-player" class="hover:text-indigo-300 transition hover:cursor-pointer">Tu jugador</a> 
       <a *ngIf="role!==''" routerLink="/match" class="hover:text-indigo-300 transition hover:cursor-pointer">Batalla</a> 
-      <a *ngIf="role!==''&&role==='ADMIN'" routerLink="/players" class="hover:text-indigo-300 transition hover:cursor-pointer">Jugadores</a> 
+      <a *ngIf="role!==''&&role==='ADMIN'" routerLink="/players" class="hover:text-indigo-300 transition hover:cursor-pointer">Jugadores</a>     
+      <a *ngIf="role!==''" routerLink="/ranking" class="hover:text-indigo-300 transition hover:cursor-pointer">Clasificación</a>
     </nav>
+    
 
     <!-- Botón login desktop -->
     <div *ngIf="role===''" class="hidden md:block">
