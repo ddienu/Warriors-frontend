@@ -53,4 +53,13 @@ export const routes: Routes = [
         path:'players',
         loadComponent: () => import('./features/players/players.component')
     },
+    {
+        path:'ranking',
+        loadComponent: () => import('./features/ranking/ranking.component')
+    },
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
+    }
 ];
