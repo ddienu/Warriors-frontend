@@ -43,6 +43,15 @@ export class PlayerService {
     return this.http.get<ApiResponse<PlayerResponse>>(`${this.apiUrl}${ApiPath.player}/user/${userId}`);
   }
 
+  getPlayersOrderByPoints(options?: { page?: number; size?: number;}) : Observable<ApiResponse<Page<PlayerResponse>>>{
+    const params : any = {};
+
+    params.page = options?.page !== undefined ? options.page : 0
+    params.size = options?.size !== undefined ? options.size : 10
+
+    return this.http.get<ApiResponse<Page<PlayerResponse>>>(`${this.apiUrl}${ApiPath.player}/points`, {params});
+  }
+
   createPlayer(playerPayload: CreatePlayer): Observable<ApiResponse<CreatePlayer>> {
     return this.http.post<ApiResponse<CreatePlayer>>(`${this.apiUrl}${ApiPath.player}`, playerPayload);
   }
