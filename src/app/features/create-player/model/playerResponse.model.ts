@@ -8,6 +8,9 @@ export interface PlayerResponse{
     nickname: string,
     warriorsSelected: Warrior[],
     user: User,
+    points: number,
+    gamesWon: number,
+    gamesLost: number
 }
 
 export interface User{
