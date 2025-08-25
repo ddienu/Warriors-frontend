@@ -28,5 +28,8 @@ export interface Player{
             name: string,
             description: string
         }
-    }
+    },
+    points: number,
+    gamesWon: number,
+    gamesLost: number
 }
